@@ -6,18 +6,18 @@
 void
 ini()
 {
-	int fd = open(sprintf("%s/ctl", GPIOPATH), OWRITE);
+	int fd = open(CTL, OWRITE);
 	if (fd < 0)
 		sysfatal("open ctl: %r");
 
-	char *func = "function out %s"
+	char *func = "function out %s";
 
-	fprintf(fd, func, PIN_E);
-	fprintf(fd, func, PIN_RS);
-	fprintf(fd, func, PIN_D4);
-	fprintf(fd, func, PIN_D5);
-	fprintf(fd, func, PIN_D6);
-	fprintf(fd, func, PIN_D7);
+	fprint(fd, func, PIN_E);
+	fprint(fd, func, PIN_RS);
+	fprint(fd, func, PIN_D4);
+	fprint(fd, func, PIN_D5);
+	fprint(fd, func, PIN_D6);
+	fprint(fd, func, PIN_D7);
 	close(fd);
 
 	sleep(100);
@@ -144,10 +144,6 @@ wr(int rs, char hex)
 void
 set(int d7, int d6, int d5, int d4)
 {
-	if (DEBUG) {
-		print("%d%d%d%d\n", d7, d6, d5, d4);
-	}
-
 	pin_wr(D7, d7);
 	pin_wr(D6, d6);
 	pin_wr(D5, d5);
