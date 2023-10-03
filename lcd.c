@@ -167,11 +167,11 @@ pin_wr(char *pin, int lvl)
 	switch(lvl) {
 	case 1:
 		if (write(fd, HIGH, 1) != 1)
-			sysfatal("write: %r");
+			sysfatal("setting pin to high: %r");
 		break;
 	case 0:
 		if (write(fd, LOW, 1) != 1)
-			sysfatal("write: %r");
+			sysfatal("setting pin to low: %r");
 		break;
 	}
 

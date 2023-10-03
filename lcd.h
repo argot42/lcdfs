@@ -1,7 +1,5 @@
 #define PATH "/dev/gpio"
 
-
-
 #define PIN_E 	"15"
 #define PIN_RS 	"18"
 #define PIN_D4	"17"
