@@ -21,7 +21,7 @@ getdirent(int n, Dir* d, void*)
 	d->muid = estrdup9p(d->uid);
 	if (n == -1) {
 		d->qid = (Qid){0, 0, QTDIR};
-		d->mode = 0775;
+		d->mode = DMDIR|0555;
 		d->name = estrdup9p("/");
 		d->length = 0;
 	} else if (n >= 0 && n <= 1) {
@@ -32,12 +32,6 @@ getdirent(int n, Dir* d, void*)
 	} else
 		return -1;
 	return 0;
-}
-
-static void
-fsstart(Srv* s)
-{
-	print("hello everybody\n");
 }
 
 static void 
@@ -51,24 +45,42 @@ fsattach(Req* r)
 static void
 fsread(Req* r)
 {
-	print("readin!\n");
-
 	Fid* fid;
 	Qid q;
 	fid = r->fid;
 	q = fid->qid;
+
 	if (q.type&QTDIR) {
 		dirread9p(r, getdirent, nil);
 		respond(r, nil);
 		return;
 	}
 
-	print("strange file :0\n");
+	readstr(r, "\n");
+	respond(r, nil);
 }
 
 static char* 
 fswalk1(Fid* fid, char* name, Qid* qid)
 {
+	int i;
+	Qid q;
+	q = fid->qid;
+
+	if (!(q.type&QTDIR)) {
+		if (!strcmp(name, "..")) {
+			fid->qid = (Qid){0,0,QTDIR};
+			*qid = fid->qid;
+			return nil;
+		}
+	} else {
+		for (i = 0; i < 2; i++)
+			if (vfiles[i] && !strcmp(name, vfiles[i])) {
+				fid->qid = (Qid){i+1, 0, QTFILE};
+				*qid = fid->qid;
+				return nil;
+			}
+	}
 	return "???";
 };
 
@@ -89,7 +101,6 @@ fsstat(Req* r)
 
 static Srv sfs =
 {
-	.start	= 		fsstart,
 	.read	=		fsread,
 	.attach =		fsattach,
 	.walk1 	=		fswalk1,

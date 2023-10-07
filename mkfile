@@ -10,3 +10,10 @@ lcdfs.$O: lcdfs.c lcd.h
 
 lcd.$O: lcd.c lcd.h
 	$CC -FVw lcd.c
+
+run: $O.lcdfs
+	./$O.lcdfs
+
+clean:
+	rm -f $O.* *.$O
+
