@@ -6,6 +6,11 @@
 #include <9p.h>
 #include "lcd.h"
 
+char* vfiles[] = {
+	"line0",
+	"line1",
+};
+
 static int
 getdirent(int n, Dir* d, void*)
 {
@@ -19,6 +24,11 @@ getdirent(int n, Dir* d, void*)
 		d->mode = 0775;
 		d->name = estrdup9p("/");
 		d->length = 0;
+	} else if (n >= 0 && n <= 1) {
+		d->qid = (Qid){n+1, 0, QTFILE};
+		d->mode = 0664;
+		d->name = estrdup9p(vfiles[n]);
+		d->length = 42;
 	} else
 		return -1;
 	return 0;
@@ -53,25 +63,13 @@ fsread(Req* r)
 		return;
 	}
 
-	print("extrange file :0\n");
+	print("strange file :0\n");
 }
 
 static char* 
 fswalk1(Fid* fid, char* name, Qid* qid)
 {
 	return "???";
-
-	Qid q;
-
-	q = fid->qid;
-	if (!(q.type&QTDIR)) {
-		print(">>>>>%s<<<<<<\n", name);
-		fid->qid = (Qid){0,0,QTDIR};
-		*qid = fid->qid;
-		return nil;
-	}
-
-	return "no such file!";
 };
 
 static void
