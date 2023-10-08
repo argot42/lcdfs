@@ -24,8 +24,8 @@ enum {
 };
 
 enum {
-	LOWER,
-	UPPER
+	UPPER,	
+	LOWER
 };
 
 void ini(void);

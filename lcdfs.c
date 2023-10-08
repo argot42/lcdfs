@@ -91,6 +91,10 @@ fswrite(Req* r)
 		vfiles[q.path-1],
 		q.path
 	);
+
+	line(q.path - 1);
+	put(str);	
+
 	respond(r, nil);
 }
 
