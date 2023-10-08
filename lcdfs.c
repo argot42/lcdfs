@@ -84,14 +84,6 @@ fswrite(Req* r)
 	memmove(str, r->ifcall.data, r->ifcall.count);
 	str[r->ifcall.count] = 0;
 
-	print(
-		"so you want to write[%s](%d) to %s(%ulld) huh?\n", 
-		str,
-		r->ifcall.count,
-		vfiles[q.path-1],
-		q.path
-	);
-
 	line(q.path - 1);
 	put(str);	
 
@@ -177,6 +169,8 @@ threadmain(int argc, char **argv)
 
 	if(argc != 0)
 		usage();
+
+	ini();
 	threadpostmountsrv(&sfs, srv, mnt, MREPL|MCREATE);
 	threadexits(nil);
 }
