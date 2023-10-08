@@ -1,2 +1,2 @@
 # lcdfs
-plan9 lcd filesystem just 4 fun
+plan9 lcd file server just 4 fun
