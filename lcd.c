@@ -25,37 +25,37 @@ ini()
 	pin_wr(RS, 0);
 	set(0, 0, 1, 1);
 	snd();
-	sleep(.005);
+	sleep(1);
 
 	pin_wr(RS, 0);
 	set(0, 0, 1, 1);
 	snd();
-	sleep(.1);
+	sleep(1);
 
 	pin_wr(RS, 0);
 	set(0, 0, 1, 1);
 	snd();
-	sleep(.1);
+	sleep(1);
 
 	pin_wr(RS, 0);
 	set(0, 0, 1, 0);
 	snd();
-	sleep(.1);
+	sleep(1);
 
 	cmd(0x28);
-	sleep(.053);
+	sleep(1);
 
 	cmd(0x01);
 	sleep(3);
 
 	cmd(0x0C);
-	sleep(.053);
+	sleep(1);
 	
 	cmd(0x06);
-	sleep(.053);
+	sleep(1);
 	
 	cmd(0x80);
-	sleep(.053);
+	sleep(1);
 }
 
 void
@@ -68,7 +68,6 @@ void
 home()
 {
 	cmd(0x02);
-	sleep(15.20);
 }
 
 void
@@ -78,7 +77,6 @@ mv(int dir)
 		cmd(0x14);
 	else
 		cmd(0x10);
-	sleep(.37);
 }
 
 void
@@ -105,7 +103,6 @@ void
 dat(char d)
 {
 	wr(1, d);
-	sleep(.37);
 }
 
 void
